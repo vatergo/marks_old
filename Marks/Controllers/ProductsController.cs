@@ -4,7 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataLayer;
 using DataLayer.Entities;
+using Marks.Models;
 using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -24,20 +27,29 @@ namespace Marks.Controllers
         [HttpGet]
         public ActionResult<Product> GetProducts()
         {
-            return Ok();
+            return Ok(context.Products.ToList());
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string GetProductById(int id)
+        // GET api/<controller>/5 Пока не разобрался как работают тут айдишники, сделал метод поиска по имени
+        [HttpGet("{title}")]
+        public ActionResult<ProductDto> GetProductByTitle(string title)
         {
-            return "value";
+            var products = context.Products.ToList();
+            var product = products.Where(x => x.Title == title).FirstOrDefault();
+            if (product != null)
+            {
+                var productDto = Mapper.Map<ProductDto>(product);
+                return Ok(productDto);
+            }              
+            return NotFound();
         }
+
 
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]string value)
         {
+
         }
 
         // PUT api/<controller>/5
