@@ -10,6 +10,11 @@ using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using DataLayer.Entities;
 using Marks.Models;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Newtonsoft.Json.Converters;
 
 namespace Marks
 {
@@ -27,11 +32,22 @@ namespace Marks
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<EFDBContext>(options => options.UseSqlServer(connection, b => b.MigrationsAssembly("DataLayer")));
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(options =>
+            {
+                options.ReturnHttpNotAcceptable = true;
+                options.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+            })
+            .AddJsonOptions(options =>
+            {
+                options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Populate;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.Converters.Add(new StringEnumConverter());
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Product, ProductDto>();
+                cfg.CreateMap<UserToCreateDto, User>();
             });
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>

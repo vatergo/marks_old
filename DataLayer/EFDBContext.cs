@@ -10,6 +10,7 @@ namespace DataLayer
     public class EFDBContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public EFDBContext(DbContextOptions<EFDBContext> options) : base(options)
         {
