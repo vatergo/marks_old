@@ -7,16 +7,23 @@ import { Counter } from './components/Counter';
 
 import { Reg } from './components/reg'
 
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
 export default class App extends Component {
   static displayName = App.name;
 
   render () {
     return (
       <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-        <Route path='/auth' component={Reg} />
+            {getCookie('userName') && <Route exact path='/' component={Home} />}
+            {getCookie('userName') && <Route path='/counter' component={Counter} />}
+            {getCookie('userName') && <Route path='/fetch-data' component={FetchData} />}
+            {!getCookie('userName') && <Route path='/auth' component={Reg} />}
       </Layout>
     );
   }
