@@ -1,7 +1,17 @@
 ﻿.form {
 	display: flex;
 	flex-direction: column;
-	height: 50%;
 	align-items: center;
-	width: 50%;
+    float: left;
+}
+
+input {
+    margin-top: 2%;
+}
+
+.buttons {
+    padding-top: 3%;
+    display: flex;
+    width: 180px;
+    justify-content: space-between;
 }

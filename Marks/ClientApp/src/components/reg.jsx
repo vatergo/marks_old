@@ -18,8 +18,8 @@ export class Reg extends Component {
                 Password: pass
             }), headers: { 'content-type': 'application/json' }
         })
-            .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Вы успешно авторизованы'); document.cookie = `userName=${login}`; })
-            .catch(function (error) { alert('Неверный логин или пароль' + error.message) });
+            .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Вы успешно авторизованы'); document.cookie = `userName=${login}`; window.location.replace("https://localhost:5001/"); })
+            .catch(function (error) { alert('Неверный логин или пароль ' + error.message) });
 
     }
 
@@ -33,7 +33,7 @@ export class Reg extends Component {
             }), headers: { 'content-type': 'application/json' }
         })
             .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Вы успешно зарегистрированы'); })
-            .catch(function (error) { alert('Пользователь с таким именем уже зарегистрирован' + error.message) });
+            .catch(function (error) { alert('Пользователь с таким именем уже зарегистрирован ' + error.message) });
     }
 
     render() {
@@ -43,7 +43,7 @@ export class Reg extends Component {
                 <div className="form">
                     <input type="text" className="login" placeholder="Login" />
                     <input type="password" className="password" placeholder="Password" />
-                    <div>
+                    <div className="buttons">
                         <button type='button' onClick={this.signIn}>Sign in</button>
                         <button type='button' onClick={this.signUp}>Sign up</button>
                     </div>

@@ -14,7 +14,8 @@ export class NavMenu extends Component {
     this.state = {
       collapsed: true
       };
-    this.out = this.out.bind(this);
+      this.out = this.out.bind(this);
+      this.getCookie = this.getCookie.bind(this);
   }
 
   toggleNavbar () {
@@ -24,15 +25,15 @@ export class NavMenu extends Component {
   }
 
     out() {
-        document.cookie = '';// так не затираются куки, нужно что-то другое
+        document.cookie = 'userName=';// так не затираются куки, нужно что-то другое
+        window.location.replace("https://localhost:5001/");
     }
 
-    getCookie(name) {
-        var matches = document.cookie.match(new RegExp(
-            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    getCookie() {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + 'userName'.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
         ));
         if (matches) {
-            //this.setState(this.state.collapsed); Надо заставить перерисовываться!
             return decodeURIComponent(matches[1]);
         }
         return undefined;
@@ -46,13 +47,13 @@ export class NavMenu extends Component {
             <NavbarBrand tag={Link} to="/">Marks</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
-                       <ul className="navbar-nav flex-grow">
-                            {this.getCookie('userName') && < NavItem > <NavLink tag={Link} className="text-dark" to="/">Home</NavLink></NavItem>}
-                            {this.getCookie('userName') && <NavItem><NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink></NavItem>}
-                            {this.getCookie('userName') && <NavItem><NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink></NavItem>}
-                            {!this.getCookie('userName') && <NavItem><NavLink tag={Link} className="text-dark" to="/auth">Sign in/Sign up</NavLink></NavItem>}
-                            {this.getCookie('userName') && <button onClick={this.out}>Out</button>}
-              </ul>
+                <ul className="navbar-nav flex-grow">
+                    {this.getCookie() && < NavItem > <NavLink tag={Link} className="text-dark" to="/">Home</NavLink></NavItem>}
+                    {this.getCookie() && <NavItem><NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink></NavItem>}
+                    {this.getCookie() && <NavItem><NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink></NavItem>}
+                    {!this.getCookie() && <NavItem><NavLink tag={Link} className="text-dark" to="/auth">Sign in/Sign up</NavLink></NavItem>}
+                    {this.getCookie() && <NavItem><NavLink onClick={this.out}>Out</NavLink></NavItem>}
+                </ul>
             </Collapse>
           </Container>
         </Navbar>
