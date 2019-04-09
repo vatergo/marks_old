@@ -1,30 +1,52 @@
 ﻿import React, { Component } from 'react';
+import './reg.css';
 
 export class Reg extends Component {
     constructor(props) {
         super(props);
-        this.onSubmit = this.onSubmit.bind(this);
+        this.signIn = this.signIn.bind(this);
+        this.signUp = this.signUp.bind(this);
     }
-    onSubmit(event) {
-        let login = 'Получить значение из инупутов';
-        let pass = document.querySelector('.Password').textContent;
-        fetch('/api/user', {
+
+    signIn() {
+        let login = document.querySelector('.login').value;
+        let pass = document.querySelector('.password').value;
+        fetch('/api/user/Auth', {
+            method: 'POST',
+            body: JSON.stringify({
+                Login: login,
+                Password: pass
+            }), headers: { 'content-type': 'application/json' }
+        })
+            .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Вы успешно авторизованы'); })
+            .catch(function (error) { alert('Неверный логин или пароль' + error.message) });
+    }
+
+    signUp() {
+        let login = document.querySelector('.login').value;
+        let pass = document.querySelector('.password').value;
+        fetch('/api/user/Reg', {
             method: 'POST', body: JSON.stringify({
                 Login: login,
                 Password: pass
             }), headers: { 'content-type': 'application/json' }
-        });
-        alert('Вы успешно зарегистрировались');
+        })
+            .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Вы успешно зарегистрированы'); })
+            .catch(function (error) { alert('Пользователь с таким именем уже зарегистрирован' + error.message) });
     }
+
     render() {
         return (
             <div>
                 <h1>Registration</h1>
-                <form onSubmit={this.onSubmit} >
-                    <input className="Login" placeholder="Login" />
-                    <input className="Password" placeholder="Password" />
-                    <button type='submit'>Регистрация</button>
-                </form>
+                <div className="form">
+                    <input type="text" className="login" placeholder="Login" />
+                    <input type="password" className="password" placeholder="Password" />
+                    <div>
+                        <button type='button' onClick={this.signIn}>Sign in</button>
+                        <button type='button' onClick={this.signUp}>Sign up</button>
+                    </div>
+                </div>
             </div>
         );
     }

@@ -21,13 +21,13 @@ namespace Marks.Controllers
             this.context = context;
         }
 
-        [HttpPost]
-        public IActionResult CreateUser([FromBody] UserToCreateDto user)
+        [HttpPost("[action]")]
+        public IActionResult Reg([FromBody] UserToCreateDto user)
         {
             if (user == null)
                 return BadRequest();
 
-            if (!string.IsNullOrEmpty(user.Login) &&
+            if (string.IsNullOrEmpty(user.Login) &&
                 !user.Login.All(char.IsLetterOrDigit))
             {
                 ModelState.AddModelError(nameof(UserToCreateDto.Login),
@@ -38,12 +38,40 @@ namespace Marks.Controllers
                 return new UnprocessableEntityObjectResult(ModelState);
 
             var userEntity = Mapper.Map<User>(user);
+            var loginsUsers = context.Users.Select(x => x.Login).ToList();
+            if (loginsUsers.Contains(userEntity.Login))
+                return BadRequest(); //Нужно возвращать что-то нормальное, а не бедреквест
             var createdUserEntity = context.Users.Add(userEntity);
             context.SaveChanges();
 
             return CreatedAtRoute(
                 new { userId = createdUserEntity.Entity.Id },
                 createdUserEntity.Entity.Id);
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult Auth([FromBody] UserToCreateDto user)
+        {
+            if (user == null)
+                return BadRequest();
+
+            if (string.IsNullOrEmpty(user.Login) &&
+                !user.Login.All(char.IsLetterOrDigit))
+            {
+                ModelState.AddModelError(nameof(UserToCreateDto.Login),
+                    "Login should contain only letters or digits.");
+            }
+
+            if (!ModelState.IsValid)
+                return new UnprocessableEntityObjectResult(ModelState);
+
+            var userEntity = Mapper.Map<User>(user);
+            var userOnDb = context.Users.Where(x => x.Login == userEntity.Login).FirstOrDefault();
+            if (userOnDb == null || userOnDb.Password != userEntity.Password)
+                return BadRequest(); //Нужно возвращать что-то нормальное, а не бедреквест
+            return CreatedAtRoute(
+                new { userId = userOnDb.Id },
+                userOnDb.Id);
         }
     }
 }
