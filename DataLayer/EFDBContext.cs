@@ -11,6 +11,7 @@ namespace DataLayer
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Thing> Things { get; set; }
 
         public EFDBContext(DbContextOptions<EFDBContext> options) : base(options)
         {

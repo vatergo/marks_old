@@ -21,6 +21,14 @@ namespace Marks.Controllers
             this.context = context;
         }
 
+        [HttpGet("{login}")]
+        public ActionResult<Guid> GetId([FromRoute] string login)
+        {
+            var user = context.Users.Where(x=>x.Login==login).ToList().FirstOrDefault();
+            if (user == null) return NotFound();
+            return Ok(user.Id);
+        }
+
         [HttpPost("[action]")]
         public IActionResult Reg([FromBody] UserToCreateDto user)
         {
