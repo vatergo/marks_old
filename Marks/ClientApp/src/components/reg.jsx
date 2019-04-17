@@ -44,8 +44,8 @@ export class Reg extends Component {
                     <input type="text" className="login" placeholder="Login" />
                     <input type="password" className="password" placeholder="Password" />
                     <div className="buttons">
-                        <button type='button' onClick={this.signIn}>Sign in</button>
-                        <button type='button' onClick={this.signUp}>Sign up</button>
+                        <button className="login" type='button' onClick={this.signIn}>Sign in</button>
+                        <button className="signup"type='button' onClick={this.signUp}>Sign up</button>
                     </div>
                 </div>
             </div>
