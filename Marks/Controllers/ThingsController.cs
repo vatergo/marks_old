@@ -42,25 +42,33 @@ namespace Marks.Controllers
 
         private async void GetThingFromEbay(string itemId)
         {
-            var url = @"http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=XML&appid=IvanVate-marks-PRD-eea9be394-ffca6479&siteid=0&version=967&ItemID={itemId}";
+            var url = $"http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=XML&appid=IvanVate-marks-PRD-eea9be394-ffca6479&siteid=0&version=967&ItemID={itemId}";
             var xml = await new WebClient().DownloadStringTaskAsync(new Uri(url));
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
-            var root = doc.DocumentElement.ChildNodes;
-            XmlNode item;
-            for (var i = 0; i < root.Count; i++)
+            var thing = new Thing();
+            var root = doc.DocumentElement;
+            var item = GetXmlNode(root.ChildNodes, "Item");
+            thing.ItemId = itemId;
+            thing.Title = GetXmlNode(item.ChildNodes, "Title").InnerText;
+            thing.Image = GetXmlNode(item.ChildNodes, "PictureURL").InnerText;
+            thing.Cost = GetXmlNode(item.ChildNodes, "ConvertedCurrentPrice").InnerText +
+            GetXmlNode(item.ChildNodes, "ConvertedCurrentPrice").Attributes[0].Value;
+            //context.Things.Add(thing);
+        }
+
+        private XmlNode GetXmlNode(XmlNodeList list, string name)
+        {
+            XmlNode result = null;
+            for(var i = 0; i<list.Count; i++)
             {
-                if (root[i].Name == "Item")
+                if (list[i].Name == name)
                 {
-                    item = root[i];
+                    result = list[i];
                     break;
-                }
+                }    
             }
-            //var title = item.SelectSingleNode("ItemID").Value;
-            //var imgUrl = item.SelectSingleNode("PictureURL").Value;
-            //var cost = item.SelectSingleNode("ConvertedCurrentPrice").Value +
-            //item.SelectSingleNode("ConvertedCurrentPrice").Attributes["currencyID"];
-            var vg = 0;
+            return result;
         }
     }
 }
