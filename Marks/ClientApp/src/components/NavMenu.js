@@ -51,6 +51,7 @@ export class NavMenu extends Component {
                     {this.getCookie() && < NavItem > <NavLink tag={Link} className="text-dark" to="/">Home</NavLink></NavItem>}
                     {this.getCookie() && <NavItem><NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink></NavItem>}
                     {this.getCookie() && <NavItem><NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink></NavItem>}
+                    {this.getCookie() && <NavItem><NavLink tag={Link} className="text-dark" to="/products">Products</NavLink></NavItem>}
                     {!this.getCookie() && <NavItem><NavLink tag={Link} className="text-dark" to="/auth">Sign in/Sign up</NavLink></NavItem>}
                     {this.getCookie() && <NavItem><NavLink onClick={this.out}>Out</NavLink></NavItem>}
                 </ul>

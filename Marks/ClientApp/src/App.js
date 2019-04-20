@@ -4,7 +4,7 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
-import { NewProduct } from './components/AddProduct';
+import { ProductList } from './components/ProductList';
 
 import { Reg } from './components/reg'
 
@@ -24,8 +24,8 @@ export default class App extends Component {
             <Route exact path='/' component={Home} />
             {getCookie('userName') && <Route path='/counter' component={Counter} />}
             {getCookie('userName') && <Route path='/fetch-data' component={FetchData} />}
+            {getCookie('userName') && <Route path='/products' component={ProductList} />}
             {!getCookie('userName') && <Route path='/auth' component={Reg} />}
-            {getCookie('userName') && <Route path='/addP' component={NewProduct} />}
       </Layout>
     );
   }

@@ -24,6 +24,13 @@ namespace Marks.Controllers
             this.context = context;
         }
 
+        [HttpPost("[action]")]
+        public IActionResult GetAllThings([FromHeader] Cookie cookie)
+        {
+            var things = context.Things.ToList();
+            return Ok();
+        }
+
         [HttpGet("{itemId}")]
         public IActionResult AddThing([FromRoute] string itemId)
         {
