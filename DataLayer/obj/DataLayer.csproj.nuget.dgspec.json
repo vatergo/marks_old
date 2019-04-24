@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\VaterGo\\Desktop\\marks\\DataLayer\\DataLayer.csproj": {}
+    "C:\\Users\\SU\\Desktop\\marks\\marks\\DataLayer\\DataLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\VaterGo\\Desktop\\marks\\DataLayer\\DataLayer.csproj": {
+    "C:\\Users\\SU\\Desktop\\marks\\marks\\DataLayer\\DataLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\VaterGo\\Desktop\\marks\\DataLayer\\DataLayer.csproj",
+        "projectUniqueName": "C:\\Users\\SU\\Desktop\\marks\\marks\\DataLayer\\DataLayer.csproj",
         "projectName": "DataLayer",
-        "projectPath": "C:\\Users\\VaterGo\\Desktop\\marks\\DataLayer\\DataLayer.csproj",
-        "packagesPath": "C:\\Users\\VaterGo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\VaterGo\\Desktop\\marks\\DataLayer\\obj\\",
+        "projectPath": "C:\\Users\\SU\\Desktop\\marks\\marks\\DataLayer\\DataLayer.csproj",
+        "packagesPath": "C:\\Users\\SU\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\SU\\Desktop\\marks\\marks\\DataLayer\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\VaterGo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SU\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [

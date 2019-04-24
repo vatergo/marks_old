@@ -6,15 +6,17 @@ export class AddProduct extends Component {
         super(props);
         this.onClick = this.onClick.bind(this);
     }
-
+    
     onClick() {
-        let url = document.querySelector('.url').value;
+        let value = document.querySelector('.url').value;
+        let context = this;
         fetch(`/api/things/${value}`, {
             method: 'GET',
             headers: { 'content-type': 'application/json' }
         })
-            .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Продукт добавлен'); })
+            .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Продукт добавлен'); context.props.onClick(); })
             .catch(function (error) { alert('Что-то пошло не так ' + error.message) });
+
     }
 
     render() {

@@ -1,0 +1,17 @@
+﻿.product-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-list ul {
+    list-style: none;
+}
+
+.product-list li {
+    border: 1px solid gray;
+}
+
+.thing img {
+    max-width: 250px;
+    max-height: 250px;
+}

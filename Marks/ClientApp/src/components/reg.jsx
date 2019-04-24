@@ -18,7 +18,7 @@ export class Reg extends Component {
                 Password: pass
             }), headers: { 'content-type': 'application/json' }
         })
-            .then(function (response) { if (response.status !== 201) throw new Error(response.status); alert('Вы успешно авторизованы'); document.cookie = `userName=${login}`; window.location.replace("https://localhost:5001/"); })
+            .then(function (response) { if (response.status !== 201) throw new Error(response.status); document.cookie = `userName=${login}`; window.location.replace("https://localhost:5001/"); })
             .catch(function (error) { alert('Неверный логин или пароль ' + error.message) });
 
     }

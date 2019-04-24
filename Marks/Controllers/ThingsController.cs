@@ -24,11 +24,11 @@ namespace Marks.Controllers
             this.context = context;
         }
 
-        [HttpPost("[action]")]
+        [HttpGet("[action]")]
         public IActionResult GetAllThings([FromHeader] Cookie cookie)
         {
             var things = context.Things.ToList();
-            return Ok();
+            return Ok(things);
         }
 
         [HttpGet("{itemId}")]
@@ -43,25 +43,31 @@ namespace Marks.Controllers
 
             if (!ModelState.IsValid)
                 return new UnprocessableEntityObjectResult(ModelState);
-            GetThingFromEbay(itemId);
-            return Ok();
+            var thing = GetThingFromEbay(itemId);
+            if (thing == null) return BadRequest();
+            var createdProduct = context.Things.Add(thing);
+            context.SaveChanges();
+            return CreatedAtRoute(
+                new { userId = createdProduct.Entity.Id },
+                createdProduct.Entity.Id);
         }
 
-        private async void GetThingFromEbay(string itemId)
+        private Thing GetThingFromEbay(string itemId)
         {
             var url = $"http://open.api.ebay.com/shopping?callname=GetSingleItem&responseencoding=XML&appid=IvanVate-marks-PRD-eea9be394-ffca6479&siteid=0&version=967&ItemID={itemId}";
-            var xml = await new WebClient().DownloadStringTaskAsync(new Uri(url));
+            var xml = new WebClient().DownloadString(new Uri(url));
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
             var thing = new Thing();
             var root = doc.DocumentElement;
             var item = GetXmlNode(root.ChildNodes, "Item");
+            if (item == null) return null;
             thing.ItemId = itemId;
             thing.Title = GetXmlNode(item.ChildNodes, "Title").InnerText;
             thing.Image = GetXmlNode(item.ChildNodes, "PictureURL").InnerText;
             thing.Cost = GetXmlNode(item.ChildNodes, "ConvertedCurrentPrice").InnerText +
             GetXmlNode(item.ChildNodes, "ConvertedCurrentPrice").Attributes[0].Value;
-            //context.Things.Add(thing);
+            return thing;
         }
 
         private XmlNode GetXmlNode(XmlNodeList list, string name)
