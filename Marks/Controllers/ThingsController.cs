@@ -25,15 +25,17 @@ namespace Marks.Controllers
         }
 
         [HttpGet("[action]")]
-        public IActionResult GetAllThings([FromHeader] Cookie cookie)
+        public IActionResult GetAllThings([FromHeader(Name = "Cookie")] string userName)
         {
-            var things = context.Things.ToList();
+            var name = userName.Split('=')[1];
+            var things = context.Things.Where(x => x.UserName == name).ToList();
             return Ok(things);
         }
 
         [HttpGet("{itemId}")]
-        public IActionResult AddThing([FromRoute] string itemId)
+        public IActionResult AddThing([FromRoute] string itemId, [FromHeader(Name = "Cookie")] string userName)
         {
+            var name = userName.Split('=')[1];
             if (string.IsNullOrEmpty(itemId) &&
                 !itemId.All(char.IsDigit))
             {
@@ -45,6 +47,7 @@ namespace Marks.Controllers
                 return new UnprocessableEntityObjectResult(ModelState);
             var thing = GetThingFromEbay(itemId);
             if (thing == null) return BadRequest();
+            thing.UserName = name;
             var createdProduct = context.Things.Add(thing);
             context.SaveChanges();
             return CreatedAtRoute(

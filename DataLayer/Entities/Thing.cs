@@ -8,7 +8,7 @@ namespace DataLayer.Entities
     {
         public Guid Id { get; set; }
         public string ItemId { get; set; }
-        public Guid UserId { get; set; }
+        public string UserName { get; set; }
         public string Title { get; set; }
         public string Image { get; set; }
         public string Description { get; set; }

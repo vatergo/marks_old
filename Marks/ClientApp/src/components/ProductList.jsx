@@ -11,11 +11,24 @@ export class ProductList extends Component {
         }
     }
 
+    getCookie() {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + 'userName'.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+        ));
+        if (matches) {
+            return decodeURIComponent(matches[1]);
+        }
+        return undefined;
+    }
+
     getProducts() {
         let context = this;
+        let headers = new Headers();
+        headers.append('content-type', 'application/json');
+        headers.append('Cookie', `userName=${this.getCookie()}`);
         fetch(`/api/things/GetAllThings`, {
             method: 'GET',
-            headers: { 'content-type': 'application/json' }
+            headers,
         })
             .then(function (response) {
                 if (response.status !== 200)

@@ -13,7 +13,7 @@ namespace DataLayer.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     ItemId = table.Column<string>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: true),
+                    UserName = table.Column<string>(nullable: true),
                     Title = table.Column<string>(nullable: true),
                     Image = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
