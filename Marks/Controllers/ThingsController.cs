@@ -86,5 +86,12 @@ namespace Marks.Controllers
             }
             return result;
         }
+
+        [HttpOptions("{itemId}")]
+        public IActionResult GetOptions()
+        {
+            Response.Headers.Add("Access-Control-Request-Method", "GET,OPTIONS");
+            return Ok();
+        }
     }
 }

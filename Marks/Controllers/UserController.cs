@@ -81,5 +81,13 @@ namespace Marks.Controllers
                 new { userId = userOnDb.Id },
                 userOnDb.Id);
         }
+
+        [HttpOptions]
+        public IActionResult GetOptions()
+        {
+            Response.Headers.Add("Access-Control-Request-Method", "GET,POST,OPTIONS");
+            return Ok();
+        }
     }
+
 }

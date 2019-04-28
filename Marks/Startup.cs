@@ -25,6 +25,8 @@ namespace Marks
             Configuration = configuration;
         }
 
+        readonly string EbayOrigins = "_ebayOrigins";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -43,6 +45,8 @@ namespace Marks
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddCors();
 
             Mapper.Initialize(cfg =>
             {
@@ -80,6 +84,8 @@ namespace Marks
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
             });
+
+            app.UseCors(builder => builder.AllowAnyOrigin());
 
             app.UseSpa(spa =>
             {
